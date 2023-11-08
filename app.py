@@ -4,7 +4,6 @@ from pydantic import BaseModel
 import pandas as pd
 import pickle
 from typing import List
-from PIL import Image
 
 app = FastAPI()
 

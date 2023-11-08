@@ -392,4 +392,5 @@ def main():
 if __name__ == "__main__":
     main()
 
-# to run the app in local : streamlit run dashboard.py
+# to run the app in local : 
+
