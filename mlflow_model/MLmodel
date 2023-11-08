@@ -13,7 +13,7 @@ flavors:
     serialization_format: cloudpickle
     sklearn_version: 1.3.0
 mlflow_version: 2.7.1
-model_uuid: 176c627a601f4e7d8e3c307e9b9f9cbd
+model_uuid: 11cdd84dedc54d169f06b30d5297322c
 signature:
   inputs: '[{"type": "float", "name": "CODE_GENDER"}, {"type": "float", "name": "FLAG_OWN_CAR"},
     {"type": "float", "name": "FLAG_OWN_REALTY"}, {"type": "float", "name": "CNT_CHILDREN"},
@@ -105,4 +105,4 @@ signature:
     "INSTAL_DAYS_ENTRY_PAYMENT_SUM"}]'
   outputs: '[{"type": "integer", "name": "TARGET"}]'
   params: null
-utc_time_created: '2023-10-15 04:22:27.578544'
+utc_time_created: '2023-11-08 13:03:14.956894'

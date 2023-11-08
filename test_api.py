@@ -2,6 +2,9 @@ import pytest
 from httpx import AsyncClient
 from app import app  # import your FastAPI instance
 
+# defined an id_client for testting
+id_client = "102833"
+
 
 # Test the welcome endpoint
 # Access Link: http://localhost:8000/
@@ -47,3 +50,6 @@ async def test_shap_values_client():
     async with AsyncClient(app=app, base_url="http://test") as ac:
         response = await ac.get(f"/credit/{id_client}/shap")
     assert response.status_code == 200
+
+
+# To run a pytest for your test_api.py : pytest test_api.py

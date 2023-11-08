@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import requests
 import streamlit as st
+import matplotlib.pyplot as plt
 from streamlit_shap import st_shap
 import mlflow
 import shap
@@ -71,6 +72,7 @@ def tab_client(df):
     # Convert "YEARS_BIRTH" and "CNT_CHILDREN" to string for filtering
     df["YEARS_BIRTH"] = (round(abs(df["DAYS_BIRTH"]), 0).astype(int)).astype(str)
     df["CNT_CHILDREN"] = df["CNT_CHILDREN"].astype(str)
+    df["SK_ID_CURR"] = df["SK_ID_CURR"].astype(str)
 
     # Convert "CODE_GENDER" to string for filtering
     df["CODE_GENDER"] = df["CODE_GENDER"].apply(
@@ -92,12 +94,27 @@ def tab_client(df):
     if child != "All":
         df = df[df["CNT_CHILDREN"] == child]
 
+    # select only the columns we need
+    df = df[
+        [
+            "SK_ID_CURR",
+            "CODE_GENDER",
+            "YEARS_BIRTH",
+            "CNT_CHILDREN",
+            "AMT_INCOME_TOTAL",
+            "AMT_CREDIT",
+            "AMT_ANNUITY",
+            "AMT_GOODS_PRICE",
+            "DAYS_EMPLOYED",
+        ]
+    ]
+
     # Display DataFrame
-    st.dataframe(df)
     st.markdown(
-        f'<h1 style="color:#6ad46a;font-size:24px;">Total clients correspondants: {len(df)}</h1>',
+        f'<h2 style="color:#6ad46a;font-size:14px;">Total clients correspondants: {len(df)}</h2>',
         unsafe_allow_html=True,
     )
+    st.dataframe(df)
 
 
 def get_client():
@@ -300,7 +317,6 @@ def main():
             + "</span>",
             unsafe_allow_html=True,
         )
-        st.subheader("*Revenus*")
 
         chk_infos = st.checkbox(
             "Cochez, si vous voulez des informations sur le client."
@@ -346,8 +362,7 @@ def main():
             )
             st.write(similar_id)
             st.markdown("<i>Target 1 = Client en faillite</i>", unsafe_allow_html=True)
-        else:
-            st.markdown("<i> </i>", unsafe_allow_html=True)
+            st.markdown("<i>Target 0 = Client solvable</i>", unsafe_allow_html=True)
 
     if selection == "Visualisation score":
         st.markdown(
@@ -371,9 +386,10 @@ def main():
             + "</span>",
             unsafe_allow_html=True,
         )
-        st.subheader("*Revenus*")
         score_viz(data_test_rm, client2, idx_client2)
 
 
 if __name__ == "__main__":
     main()
+
+# to run the app in local : streamlit run dashboard.py

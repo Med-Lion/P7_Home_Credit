@@ -57,11 +57,13 @@ def remove_sk_id_curr(data):
     return data.drop(columns=["SK_ID_CURR"])
 
 
+# test local : http://127.0.0.1:8000/
 @app.get("/")
 def welcome():
     return "Hello world! Welcome to the Default Predictor API!"
 
 
+# test local : http://127.0.0.1:8000/credit/
 @app.get("/credit", response_model=ItemResponse)
 def liste_identifiants():
     # Check if columns exist
@@ -86,6 +88,7 @@ liste_features = data_test.columns.tolist()
 print(liste_features)
 
 
+# test local : http://127.0.0.1:8000/credit/425013/predict
 @app.get("/credit/{id_client}/predict", response_model=ProbabilityResponseModel)
 def predict_score_client(id_client: int):
     if id_client in liste_id:
@@ -97,12 +100,14 @@ def predict_score_client(id_client: int):
         raise HTTPException(status_code=404, detail="Unknown ID")
 
 
+# test local : http://127.0.0.1:8000/credit/425013/data
 @app.get("/credit/{id_client}/data", response_model=DataResponseModel)
 def donnees_client(id_client: int):
     data_client = data_test.loc[data_test["SK_ID_CURR"] == id_client]
     return {"data": data_client.to_dict(orient="records")}
 
 
+# test local : http://127.0.0.1:8000/credit/425013/shap
 @app.get("/credit/{id_client}/shap", response_model=ShapValuesResponseModel)
 def shap_values_client(id_client: int):
     if id_client in liste_id:
@@ -113,3 +118,7 @@ def shap_values_client(id_client: int):
         return {"shap_val": shap_data_flat}  # corrected line
     else:
         raise HTTPException(status_code=404, detail="Unknown ID")
+
+
+# to run the app in local : uvicorn app:app --reload
+# to check the automatic interactive FastAPI documentation : http://127.0.0.1:8000/docs
