@@ -120,7 +120,7 @@ def tab_client(df):
 def get_client():
     """Fetch data from FastAPI and select a client via a selectbox"""
     # response = requests.get("http://localhost:8000/credit")
-    response = requests.get("https://medlioncr.azurewebsites.net/credit")
+    response = requests.get("https://medlion.azurewebsites.net/credit")
     json_output = response.json()
     liste_id = json_output["liste_id"]
     client = st.selectbox("**Client**", liste_id)
@@ -132,7 +132,7 @@ def get_client():
 def infos_client(client, col):
     """Fetch data from FastAPI and display the info of the selected client in the sidebar"""
     # response = requests.get(f"http://localhost:8000/credit/{client}/data")
-    response = requests.get(f"https://medlioncr.azurewebsites.net/credit/{client}/data")
+    response = requests.get(f"https://medlion.azurewebsites.net/credit/{client}/data")
     infos_clt = response.json()["data"][0]
     return infos_clt[col]
 
@@ -146,7 +146,7 @@ def get_color(result):
 #######################  Prediction  ######################
 ###########################################################
 def get_proba_for_client(client: int):
-    azure_api_url = f"https://medlioncr.azurewebsites.net/credit/{client}/predict"
+    azure_api_url = f"https://medlion.azurewebsites.net/credit/{client}/predict"
     # local_api_url = f"http://localhost:8000/credit/{client}/predict"
     response = requests.get(azure_api_url)
     response.raise_for_status()
